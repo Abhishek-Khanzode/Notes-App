@@ -49,7 +49,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
     return NextResponse.json({ success: true, data: note }, { status: 200 });
   } catch (error: any) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ success: false, message: error.errors[0].message }, { status: 400 });
+      return NextResponse.json({ success: false, message: (error as any).errors[0].message }, { status: 400 });
     }
     return NextResponse.json({ success: false, message: error.message }, { status: 500 });
   }
