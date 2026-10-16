@@ -1,6 +1,11 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/notes-saas';
+// const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/notes-saas';
+const MONGODB_URI = process.env.MONGODB_URI;
+
+if (!MONGODB_URI) {
+  throw new Error('Please define the MONGODB_URI environment variable');
+}
 
 let cached = (global as any).mongoose;
 
@@ -16,6 +21,8 @@ async function connectDB() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
+      serverSelectionTimeoutMS: 5000, // Abort after 5 seconds instead of hanging for 30s
+      connectTimeoutMS: 5000,
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
