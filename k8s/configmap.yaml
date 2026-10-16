@@ -1,0 +1,13 @@
+# =========================================================================
+# Kubernetes ConfigMap Manifest (Optional / Good Practice)
+# Stores non-confidential configuration key-value pairs outside container code.
+# =========================================================================
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notes-app-config
+  labels:
+    app: notes-app
+data:
+  NODE_ENV: "production"
+  PORT: "3000"

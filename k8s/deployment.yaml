@@ -1,0 +1,46 @@
+# =========================================================================
+# Kubernetes Deployment Manifest
+# A Deployment manages Pods and ensures the desired number of replicas are running.
+# =========================================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notes-app-deployment
+  labels:
+    app: notes-app
+spec:
+  # Desired number of pod instances (replicas)
+  replicas: 2
+  
+  # The selector tells the deployment which pods to manage based on labels
+  selector:
+    matchLabels:
+      app: notes-app
+      
+  # Template used to create each Pod
+  template:
+    metadata:
+      labels:
+        app: notes-app
+    spec:
+      containers:
+        - name: notes-app
+          # Docker image name (use the image built locally or pushed to Docker Hub)
+          image: notes-app:latest
+          imagePullPolicy: IfNotPresent
+          
+          # Container port exposed by Next.js
+          ports:
+            - containerPort: 3000
+            
+          # Environment variables for the application
+          env:
+            - name: PORT
+              value: "3000"
+            - name: NODE_ENV
+              value: "production"
+            # Optional: Use your MongoDB URI or reference a Kubernetes Secret
+            - name: MONGODB_URI
+              value: "mongodb://mongo:27017/notes"
+            - name: JWT_SECRET
+              value: "super_secure_random_string_replace_in_vercel"

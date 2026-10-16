@@ -1,0 +1,14 @@
+# .dockerignore
+# Tells Docker which files and directories to ignore when building the image.
+# This keeps the image size small and the build fast!
+
+node_modules
+.next
+.git
+.gitignore
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env*.local
+README.md
+DEVOPS_GUIDE.md

@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  notes-app:
+    build: .
+    container_name: notes-app-container
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - MONGODB_URI=mongodb://mongo:27017/notes
+      - JWT_SECRET=super_secure_random_string_replace_in_vercel
+    depends_on:
+      - mongo
+    restart: always
+
+  mongo:
+    image: mongo:latest
+    container_name: notes-mongo-container
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    restart: always
+
+volumes:
+  mongo-data:

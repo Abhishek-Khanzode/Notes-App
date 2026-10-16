@@ -1,0 +1,26 @@
+# =========================================================================
+# Kubernetes Service Manifest
+# A Service provides a stable network endpoint (IP and Port) to access Pods.
+# =========================================================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: notes-app-service
+  labels:
+    app: notes-app
+spec:
+  # Service types for beginners:
+  # - ClusterIP: Internal access only (default)
+  # - NodePort: Exposes service on a static port on each worker node (great for local testing)
+  # - LoadBalancer: Exposes service externally using cloud provider's load balancer
+  type: NodePort
+
+  # The selector connects this Service to Pods that have the label 'app: notes-app'
+  selector:
+    app: notes-app
+
+  ports:
+    - protocol: TCP
+      port: 3000        # Port exposed by the Service inside the cluster
+      targetPort: 3000  # Port where the Next.js container is listening
+      nodePort: 30080   # Port accessible on your machine/node (valid range: 30000-32767)
